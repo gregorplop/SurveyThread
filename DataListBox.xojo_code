@@ -34,6 +34,8 @@ Inherits DesktopListBox
 		    Return ""
 		  end if
 		  
+		  HasVerticalScrollbar = False
+		  
 		  dim rows as RowSet
 		  dim listrow() as String
 		  
@@ -67,10 +69,13 @@ Inherits DesktopListBox
 		    
 		  Catch e as DatabaseException
 		    ResetListBox
+		    HasVerticalScrollbar = true
 		    Return e.Message
 		  end try
 		  
 		  SetEqualRelativeWidths
+		  
+		  HasVerticalScrollbar = true
 		  
 		  Return ""
 		  

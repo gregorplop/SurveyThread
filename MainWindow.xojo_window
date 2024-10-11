@@ -18,12 +18,12 @@ Begin DesktopWindow MainWindow
    MenuBar         =   0
    MenuBarVisible  =   False
    MinimumHeight   =   64
-   MinimumWidth    =   796
+   MinimumWidth    =   1111
    Resizeable      =   True
    Title           =   "Survey Thread Harness"
    Type            =   0
    Visible         =   True
-   Width           =   974
+   Width           =   1114
    Begin Timer StatusUpdateTimer
       Index           =   -2147483648
       LockedInPosition=   False
@@ -32,11 +32,11 @@ Begin DesktopWindow MainWindow
       Scope           =   0
       TabPanelIndex   =   0
    End
-   Begin DesktopButton Button3
+   Begin DesktopButton NewSurveyBtn
       AllowAutoDeactivate=   True
       Bold            =   False
       Cancel          =   False
-      Caption         =   "start new"
+      Caption         =   "start new survey"
       Default         =   False
       Enabled         =   True
       FontName        =   "System"
@@ -64,7 +64,7 @@ Begin DesktopWindow MainWindow
       Visible         =   True
       Width           =   243
    End
-   Begin DesktopButton Button4
+   Begin DesktopButton CountFilesBtn
       AllowAutoDeactivate=   True
       Bold            =   False
       Cancel          =   False
@@ -96,7 +96,7 @@ Begin DesktopWindow MainWindow
       Visible         =   True
       Width           =   120
    End
-   Begin DesktopButton Button1
+   Begin DesktopButton SaveDbBtn
       AllowAutoDeactivate=   True
       Bold            =   False
       Cancel          =   False
@@ -142,7 +142,7 @@ Begin DesktopWindow MainWindow
       Format          =   ""
       HasBorder       =   True
       Height          =   22
-      Hint            =   ""
+      Hint            =   "Roor Folder"
       Index           =   -2147483648
       Italic          =   False
       Left            =   20
@@ -158,7 +158,7 @@ Begin DesktopWindow MainWindow
       TabIndex        =   10
       TabPanelIndex   =   0
       TabStop         =   True
-      Text            =   "C:\\Users\\george\\Desktop"
+      Text            =   ""
       TextAlignment   =   0
       TextColor       =   &c000000
       Tooltip         =   ""
@@ -167,7 +167,7 @@ Begin DesktopWindow MainWindow
       Underline       =   False
       ValidationMask  =   ""
       Visible         =   True
-      Width           =   934
+      Width           =   1074
    End
    Begin DesktopCheckBox RecursiveCheck
       AllowAutoDeactivate=   True
@@ -220,7 +220,7 @@ Begin DesktopWindow MainWindow
       TabIndex        =   12
       TabPanelIndex   =   0
       TabStop         =   True
-      Tooltip         =   ""
+      Tooltip         =   "This doesn't appear to have any effect. Xojo bug?"
       Top             =   86
       Transparent     =   False
       Underline       =   False
@@ -311,7 +311,7 @@ Begin DesktopWindow MainWindow
       Visible         =   True
       Width           =   292
    End
-   Begin DesktopButton Button5
+   Begin DesktopButton KillSurveyBtn
       AllowAutoDeactivate=   True
       Bold            =   False
       Cancel          =   False
@@ -324,7 +324,7 @@ Begin DesktopWindow MainWindow
       Height          =   60
       Index           =   -2147483648
       Italic          =   False
-      Left            =   866
+      Left            =   1006
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   False
@@ -469,7 +469,7 @@ Begin DesktopWindow MainWindow
       Transparent     =   False
       Underline       =   False
       Visible         =   True
-      Width           =   469
+      Width           =   609
    End
    Begin DesktopLabel workersLabel
       AllowAutoDeactivate=   True
@@ -577,7 +577,7 @@ Begin DesktopWindow MainWindow
       Height          =   30
       Index           =   -2147483648
       Italic          =   False
-      Left            =   817
+      Left            =   957
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   False
@@ -630,7 +630,7 @@ Begin DesktopWindow MainWindow
       Transparent     =   False
       Underline       =   False
       Visible         =   True
-      Width           =   852
+      Width           =   992
    End
    Begin Timer DecoupleTimer
       Index           =   -2147483648
@@ -663,7 +663,7 @@ Begin DesktopWindow MainWindow
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
-      Left            =   884
+      Left            =   1024
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   False
@@ -725,7 +725,7 @@ Begin DesktopWindow MainWindow
       Transparent     =   False
       Underline       =   False
       Visible         =   True
-      Width           =   934
+      Width           =   1074
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
@@ -759,6 +759,129 @@ Begin DesktopWindow MainWindow
       Underline       =   False
       Visible         =   True
       Width           =   94
+   End
+   Begin DesktopLabel Label4
+      AllowAutoDeactivate=   True
+      Bold            =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   22
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   708
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Multiline       =   False
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   31
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "Thread Priority"
+      TextAlignment   =   0
+      TextColor       =   &c000000
+      Tooltip         =   ""
+      Top             =   54
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   155
+   End
+   Begin DesktopPopupMenu PriorityMenu
+      AllowAutoDeactivate=   True
+      Bold            =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   22
+      Index           =   -2147483648
+      InitialValue    =   ""
+      Italic          =   False
+      Left            =   875
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      SelectedRowIndex=   0
+      TabIndex        =   32
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   54
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   80
+   End
+   Begin DesktopLabel Label5
+      AllowAutoDeactivate=   True
+      Bold            =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   22
+      Index           =   -2147483648
+      Italic          =   False
+      Left            =   708
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Multiline       =   False
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   33
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "Max Active Worker Threads"
+      TextAlignment   =   0
+      TextColor       =   &c000000
+      Tooltip         =   ""
+      Top             =   86
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   155
+   End
+   Begin DesktopPopupMenu ThreadCountMenu
+      AllowAutoDeactivate=   True
+      Bold            =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   22
+      Index           =   -2147483648
+      InitialValue    =   ""
+      Italic          =   False
+      Left            =   875
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      SelectedRowIndex=   0
+      TabIndex        =   34
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   86
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   80
    End
 End
 #tag EndDesktopWindow
@@ -821,16 +944,17 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events Button3
+#tag Events NewSurveyBtn
 	#tag Event
 		Sub Pressed()
-		  Button4.Caption = "count files in db"
+		  CountFilesBtn.Caption = "count files in db"
 		  
 		  dim f as FolderItem
 		  
 		  f = new FolderItem(RootFolderField.Text)
 		  
-		  
+		  srv.Priority = PriorityMenu.SelectedRowText.ToInteger
+		  srv.SetMaxActiveWorkers(ThreadCountMenu.SelectedRowText.ToInteger)
 		  
 		  srv.StartSurvey(f , RecursiveCheck.Value , FileMatchField.Text , FolderMatchField.Text , FollowLinksCheck.Value)
 		  
@@ -839,7 +963,7 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events Button4
+#tag Events CountFilesBtn
 	#tag Event
 		Sub Pressed()
 		  dim rows as RowSet
@@ -853,7 +977,7 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events Button1
+#tag Events SaveDbBtn
 	#tag Event
 		Sub Pressed()
 		  
@@ -874,7 +998,16 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events Button5
+#tag Events RootFolderField
+	#tag Event
+		Sub Opening()
+		  me.Text = SpecialFolder.Desktop.NativePath
+		  
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events KillSurveyBtn
 	#tag Event
 		Sub Pressed()
 		  srv.KillSurvey
@@ -945,6 +1078,32 @@ End
 		  c.Close
 		  
 		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PriorityMenu
+	#tag Event
+		Sub Opening()
+		  for i as Integer = 1 to 10
+		    
+		    me.AddRow i.ToString
+		    
+		  next
+		  
+		  me.SelectedRowIndex = 0
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events ThreadCountMenu
+	#tag Event
+		Sub Opening()
+		  for i as Integer = 2 to 25
+		    
+		    me.AddRow i.ToString
+		    
+		  next
+		  
+		  me.SelectedRowIndex = 3
 		End Sub
 	#tag EndEvent
 #tag EndEvents

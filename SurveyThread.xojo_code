@@ -3,8 +3,8 @@ Protected Class SurveyThread
 Inherits Thread
 	#tag Event
 		Sub Run()
-		  while GetActiveThreads > ThreadLimit
-		    Current.Sleep(100)
+		  while GetActiveThreads >= ThreadLimit // Thread has been created but it's not active
+		    Current.Sleep(150)
 		    if KillFlags.Value(SurveyID).BooleanValue = true then Return
 		  wend
 		  
@@ -14,7 +14,7 @@ Inherits Thread
 		  dim RegExMatcher as RegEx
 		  dim Match as RegExMatch
 		  
-		  if ParentThread then InsertFolderRecord(RootFolder , "") 
+		  InsertFolderRecord(RootFolder , "")
 		  
 		  try
 		    
@@ -26,7 +26,6 @@ Inherits Thread
 		        
 		        if FolderMatchCondition = "" then // survey every folder
 		          
-		          InsertFolderRecord(obj , "")
 		          if Recursive then RecursionThreads.Add(new SurveyThread(obj , me))
 		          
 		        else 
@@ -37,7 +36,6 @@ Inherits Thread
 		          Match = RegExMatcher.Search(obj.name)
 		          
 		          if not IsNull(Match) then 
-		            InsertFolderRecord(obj , "")
 		            if Recursive then RecursionThreads.Add(new SurveyThread(obj , me))
 		          end if
 		          
@@ -79,27 +77,41 @@ Inherits Thread
 		  
 		  // loop to watch for end of survey
 		  
+		  dim ZeroSamples as Integer
+		  
 		  if ParentThread then
 		    
 		    while SurveyState = SurveyStates.Running
 		      
 		      If ActiveThreadCounters.Value(SurveyID).IntegerValue = 0 then //every thread has ended
 		        
-		        if KillFlags.Value(SurveyID).BooleanValue then // kill or fatal error
+		        if ZeroSamples < 5 then // sample thread counter one more time. this condition prevents false survey completed events
 		          
-		          if GetFatalError.IsEmpty then 
-		            SurveyState = SurveyStates.Killed
-		          else
-		            SurveyState = SurveyStates.FatalError
-		          end if
+		          ZeroSamples = ZeroSamples + 1
 		          
-		        else // everyone's done
+		        else  // enough thread samples reading 0, we're probably done
 		          
-		          SurveyState = SurveyStates.Completed
+		          if KillFlags.Value(SurveyID).BooleanValue then // kill or fatal error
+		            
+		            if GetFatalError.IsEmpty then 
+		              SurveyState = SurveyStates.Killed
+		            else
+		              SurveyState = SurveyStates.FatalError
+		            end if
+		            
+		          else // everyone's done
+		            
+		            SurveyState = SurveyStates.Completed
+		            
+		          end if 
 		          
-		        end if 
+		          exit While
+		          
+		        end if
 		        
-		        exit While
+		      else
+		        
+		        ZeroSamples = 0  // reset zero samples
 		        
 		      end if
 		      
@@ -166,6 +178,7 @@ Inherits Thread
 		  
 		  Type = iParentThread.Type
 		  Priority = iParentThread.Priority
+		  ThreadLimit = iParentThread.ThreadLimit
 		  
 		  SurveyID = iParentThread.SurveyID
 		  ParentThread = False
@@ -233,6 +246,8 @@ Inherits Thread
 
 	#tag Method, Flags = &h0
 		Function GetSurveyDuration() As integer
+		  //select CAST(strftime('%s', max(surveystamp)) as integer) - CAST(strftime('%s',min(surveystamp)) as integer) from files
+		  
 		  if IsNull(TimestampEnd) then Return -1
 		  
 		  Return TimestampEnd.SecondsFrom1970 - TimestampStart.SecondsFrom1970
@@ -386,6 +401,21 @@ Inherits Thread
 	#tag Method, Flags = &h21
 		Private Sub SetFatalError(msg as string)
 		  FatalErrors.Value(SurveyID) = msg
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SetMaxActiveWorkers(MaxWorkers as Integer)
+		  Dim MaxWorkersLimit as Integer = 40
+		  
+		  if MaxWorkers < 2 or MaxWorkers > MaxWorkersLimit then 
+		    Raise new RuntimeException("Max Workers value should be between 1 and " + MaxWorkersLimit.ToString , 301)
+		  end if
+		  
+		  
+		  ThreadLimit = MaxWorkers
+		  
 		  
 		End Sub
 	#tag EndMethod
