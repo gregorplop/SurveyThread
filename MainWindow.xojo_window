@@ -765,30 +765,6 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h0
-		Sub PDFSurvey(Root as FolderItem, byref Result() as FolderItem, Recursive as Boolean, byref KillFlag as Boolean)
-		  for each fsobj as FolderItem in root.Children
-		    
-		    //Thread.Current.YieldToNext // make UI more responsive
-		    
-		    //if KillFlag then Return
-		    
-		    
-		    if fsobj.IsFolder and Recursive then
-		      
-		      PDFSurvey(fsobj , Result , Recursive, KillFlag)
-		      
-		    else
-		      
-		      Result.Add fsobj
-		      
-		    end if
-		    
-		  next 
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function SurveyStatus2Text(status as SurveyThread.SurveyStates) As String
 		  select case status
 		    
