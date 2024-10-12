@@ -258,12 +258,19 @@ Inherits Thread
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetSurveyDuration() As integer
-		  //select CAST(strftime('%s', max(surveystamp)) as integer) - CAST(strftime('%s',min(surveystamp)) as integer) from files
-		  
-		  if IsNull(TimestampEnd) then Return -1
-		  
-		  Return TimestampEnd.SecondsFrom1970 - TimestampStart.SecondsFrom1970
+		Function GetSurveyDuration(DatabaseBased as Boolean = false) As integer
+		  if DatabaseBased then
+		    
+		    dim rows as RowSet 
+		    rows = GetDatabase.SelectSQL("SELECT CAST(strftime('%s', max(surveystamp)) AS INTEGER) - CAST(strftime('%s',min(surveystamp)) AS INTEGER) FROM files")
+		    Return rows.ColumnAt(0).IntegerValue
+		    
+		  else
+		    
+		    if IsNull(TimestampEnd) then Return -1
+		    Return TimestampEnd.SecondsFrom1970 - TimestampStart.SecondsFrom1970
+		    
+		  end if
 		  
 		End Function
 	#tag EndMethod

@@ -10,7 +10,7 @@ Begin DesktopWindow MainWindow
    HasFullScreenButton=   False
    HasMaximizeButton=   True
    HasMinimizeButton=   True
-   Height          =   694
+   Height          =   722
    ImplicitInstance=   True
    MacProcID       =   0
    MaximumHeight   =   32000
@@ -90,7 +90,7 @@ Begin DesktopWindow MainWindow
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   252
+      Top             =   294
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -122,7 +122,7 @@ Begin DesktopWindow MainWindow
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   252
+      Top             =   294
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -433,7 +433,7 @@ Begin DesktopWindow MainWindow
       TextAlignment   =   0
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   210
+      Top             =   252
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -465,7 +465,7 @@ Begin DesktopWindow MainWindow
       TextAlignment   =   0
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   210
+      Top             =   252
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -561,7 +561,7 @@ Begin DesktopWindow MainWindow
       TextAlignment   =   0
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   210
+      Top             =   252
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -593,7 +593,7 @@ Begin DesktopWindow MainWindow
       TextAlignment   =   2
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   210
+      Top             =   252
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -626,7 +626,7 @@ Begin DesktopWindow MainWindow
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   306
+      Top             =   348
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -675,7 +675,7 @@ Begin DesktopWindow MainWindow
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   306
+      Top             =   348
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -704,7 +704,7 @@ Begin DesktopWindow MainWindow
       HasHorizontalScrollbar=   True
       HasVerticalScrollbar=   True
       HeadingIndex    =   -1
-      Height          =   316
+      Height          =   302
       Index           =   -2147483648
       InitialValue    =   ""
       Italic          =   False
@@ -721,7 +721,7 @@ Begin DesktopWindow MainWindow
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   340
+      Top             =   382
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -754,7 +754,7 @@ Begin DesktopWindow MainWindow
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   664
+      Top             =   692
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -883,6 +883,70 @@ Begin DesktopWindow MainWindow
       Visible         =   True
       Width           =   80
    End
+   Begin DesktopLabel Label6
+      AllowAutoDeactivate=   True
+      Bold            =   True
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   20.0
+      FontUnit        =   0
+      Height          =   30
+      Index           =   -2147483648
+      Italic          =   False
+      Left            =   20
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Multiline       =   False
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   35
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "Files Found"
+      TextAlignment   =   0
+      TextColor       =   &c000000
+      Tooltip         =   ""
+      Top             =   210
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   146
+   End
+   Begin DesktopLabel FilesLabel
+      AllowAutoDeactivate=   True
+      Bold            =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   20.0
+      FontUnit        =   0
+      Height          =   30
+      Index           =   -2147483648
+      Italic          =   False
+      Left            =   178
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Multiline       =   False
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   36
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "-"
+      TextAlignment   =   0
+      TextColor       =   &c000000
+      Tooltip         =   ""
+      Top             =   210
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   146
+   End
 End
 #tag EndDesktopWindow
 
@@ -928,7 +992,9 @@ End
 #tag Events StatusUpdateTimer
 	#tag Event
 		Sub Action()
-		  if not IsNull(srv) then
+		  
+		  try
+		    
 		    workersLabel.Text = srv.GetActiveThreads.ToString
 		    
 		    outcomeLabel.Text = SurveyStatus2Text(srv.GetSurveyState)
@@ -936,7 +1002,12 @@ End
 		    
 		    DurationLabel.Text = srv.GetSurveyDuration.ToString + " secs"
 		    
-		  end if
+		    FilesLabel.Text = srv.GetFileCount.ToString
+		    
+		  Catch e as NilObjectException
+		    // no worries
+		  end try
+		  
 		  
 		  objectsLabel.Text = Runtime.ObjectCount.ToString
 		  
@@ -953,7 +1024,7 @@ End
 		  
 		  f = new FolderItem(RootFolderField.Text)
 		  
-		  srv.Priority = PriorityMenu.SelectedRowText.ToInteger
+		  srv.Priority = PriorityMenu.SelectedRowText.ToInteger // worker threads inherit this when they are active
 		  srv.SetMaxActiveWorkers(ThreadCountMenu.SelectedRowText.ToInteger)
 		  
 		  srv.StartSurvey(f , RecursiveCheck.Value , FileMatchField.Text , FolderMatchField.Text , FollowLinksCheck.Value)
