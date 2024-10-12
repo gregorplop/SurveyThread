@@ -3,11 +3,15 @@ Protected Class SurveyThread
 Inherits Thread
 	#tag Event
 		Sub Run()
-		  while GetActiveThreads >= ThreadLimit // Thread has been created but it's not active
-		    Current.Sleep(150)
-		    if KillFlags.Value(SurveyID).BooleanValue = true then Return
-		  wend
+		  if GetActiveThreads >= ThreadLimit then
+		    Priority = 1 // low priority while in limbo
+		    while GetActiveThreads >= ThreadLimit // Thread has been created but it's not active
+		      Current.Sleep(150)
+		      if KillFlags.Value(SurveyID).BooleanValue = true then Return
+		    wend
+		  end if
 		  
+		  Priority = initPriority  //restore parent priority
 		  
 		  if not ParentThread then ActiveThreadIncrement
 		  
@@ -178,6 +182,7 @@ Inherits Thread
 		  
 		  Type = iParentThread.Type
 		  Priority = iParentThread.Priority
+		  initPriority = Priority
 		  ThreadLimit = iParentThread.ThreadLimit
 		  
 		  SurveyID = iParentThread.SurveyID
@@ -240,6 +245,14 @@ Inherits Thread
 	#tag Method, Flags = &h0
 		Function GetFatalError() As String
 		  Return FatalErrors.Value(SurveyID).StringValue
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetFileCount() As Integer
+		  dim rows as RowSet = GetDatabase.SelectSQL("SELECT COUNT(*) FROM files")
+		  Return rows.ColumnAt(0).IntegerValue
 		  
 		End Function
 	#tag EndMethod
@@ -358,6 +371,7 @@ Inherits Thread
 		  KillFlags.Value(SurveyID) = False
 		  ActiveThreadCounters.Value(SurveyID) = 0
 		  InitializeDatabase
+		  
 		End Sub
 	#tag EndMethod
 
@@ -484,6 +498,10 @@ Inherits Thread
 
 	#tag Property, Flags = &h21
 		Private FollowLinks As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private initPriority As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

@@ -966,13 +966,8 @@ End
 #tag Events CountFilesBtn
 	#tag Event
 		Sub Pressed()
-		  dim rows as RowSet
+		  me.Caption = "Files: " + srv.GetFileCount.ToString
 		  
-		  rows = srv.GetDatabase.SelectSQL("SELECT COUNT(*) FROM files")
-		  
-		  me.Caption = "Files: " + rows.ColumnAt(0).StringValue
-		  
-		  rows.Close
 		  
 		End Sub
 	#tag EndEvent
